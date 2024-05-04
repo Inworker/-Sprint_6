@@ -1,8 +1,7 @@
-from faker import Faker
-fake = Faker()
 class Urls:
     HOME_PAGE = 'https://qa-scooter.praktikum-services.ru/'
-    ORDER_PAGE = 'https://qa-scooter.praktikum-services.ru/order'
+    ORDER_PAGE = HOME_PAGE + 'order'
+
 
 class Order_data:
     NAME = ["Иван", "Марья"]
@@ -10,6 +9,7 @@ class Order_data:
     ADDRESS = ["Крылова 100", "Кирова 115"]
     TELEPHONE = ["87774446655", "89994445566"]
     COMMENT_CURRIER = ["Хочу арбуз", "Хочу хинкал"]
+
 
 class Answers:
     ANSWER = ["Сутки — 400 рублей. Оплата курьеру — наличными или картой.",

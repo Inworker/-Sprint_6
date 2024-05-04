@@ -1,18 +1,10 @@
 import allure
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from locators.Base_page_locators import BasePageLocators
 
 
 class BasePage:
-
-    button_cookie = (By.ID, "rcc-confirm-button")       # Кнопка Куки
-    img_scooter = (By.XPATH, "//img[@alt = 'Scooter']") #Иконка Самоката
-    img_yandex = (By.XPATH, "//img[@alt = 'Yandex']")   #Иконка Яндекса
-    top_button_order = (By.XPATH, '//button[@class = "Button_Button__ra12g" and (text ()= "Заказать")]') #Верхняя кнопка "Заказать"
-    middle_button_order = (By.XPATH,
-                            "//button[@class = 'Button_Button__ra12g Button_Middle__1CSJM' and (text ()= 'Заказать')]") #Кнопка заказать по средине страницы
-
 
     def __init__(self, driver):
         self.driver = driver
@@ -33,17 +25,18 @@ class BasePage:
 
     @allure.step('Нажать на кнпоку "куки" ')
     def click_cookie(self):
-        button_cookie = self.driver.find_element(*self.button_cookie)
+        button_cookie = self.driver.find_element(*BasePageLocators.button_cookie)
+
         button_cookie.click()
 
     @allure.step('Нажать на иконку "Самокат"')
     def click_logo_scooter(self):
-        click_scooter = self.driver.find_element(*self.img_scooter)
+        click_scooter = self.driver.find_element(*BasePageLocators.img_scooter)
         click_scooter.click()
 
     @allure.step('Нажать на логотип Яндекс')
     def click_logo_ya_dzen(self):
-        click_ya_dzen = self.driver.find_element(*self.img_yandex)
+        click_ya_dzen = self.driver.find_element(*BasePageLocators.img_yandex)
         click_ya_dzen.click()
 
     @allure.step('Переключение на новую вкладку')
@@ -55,7 +48,23 @@ class BasePage:
     def wait_title(self, driver, title):
         WebDriverWait(driver, 5).until(expected_conditions.title_is(title))
 
-    @allure.step('Нажать на кнопку "Заказать"')
-    def click_button_order(self, button):
-        button = self.driver.find_element(*button)
+    @allure.step('Нажать на кнопку "Заказать" вверху страницы')
+    def click_top_button_order(self):
+        button = self.driver.find_element(*BasePageLocators.top_button_order)
         button.click()
+
+    @allure.step('Нажать на кнопку "Заказать" по середине страницы')
+    def click_middle_button_order(self):
+        button = self.driver.find_element(*BasePageLocators.middle_button_order)
+        button.click()
+
+    @allure.step('Открыть страницу и нажать на кнопку "Куки"')
+    def open_page_click_cookie(self, url):
+        self.open_page(url)
+        self.click_cookie()
+
+    @allure.step('Открыть новую вкладку "Дзен"')
+    def open_new_tub_dzen(self, driver):
+        self.click_logo_ya_dzen()
+        self.switch_to_next_tub(driver, -1)
+        self.wait_title(driver, "Дзен")
